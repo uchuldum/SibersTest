@@ -17,7 +17,7 @@ using SibersTest.BL.ModelsDTO;
 using SibersTest.BL.Services;
 using SibersTest.DAL.Repositories;
 using SibersTest.DAL.Interfaces;
-
+using SibersTest.DAL.Models;
 
 namespace SibersTest.WEB
 {
@@ -38,11 +38,12 @@ namespace SibersTest.WEB
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAutoMapper(typeof(Startup));
-            services.AddScoped(typeof(IRepository<>), typeof(EmployeeRepository<>));
+            services.AddScoped(typeof(IRepository<Employee>), typeof(EmployeeRepository<Employee>));
+            services.AddScoped(typeof(IRepository<Project>), typeof(EmployeeRepository<Project>));
             services.AddScoped<IUnitOfWork, EFUnitOfWork>();
          
-            services.AddTransient(typeof(IService<>), typeof(EmployeeService<>));
-            
+            services.AddTransient(typeof(IService<EmployeeDTO>), typeof(EmployeeService<EmployeeDTO>));
+            services.AddTransient(typeof(IService<ProjectDTO>), typeof(ProjectService<ProjectDTO>));
             services.AddDbContext<SibersTest.DAL.SibersTestDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 

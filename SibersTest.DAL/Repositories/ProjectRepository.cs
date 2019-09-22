@@ -20,7 +20,7 @@ namespace SibersTest.DAL.Repositories
         public Project IsExist(Project project)
         {
             if (project == null) return null;
-            Project e = db.Projects.Include(p => p.Lead).AsNoTracking().FirstOrDefault(x => x.Name == project.Name && x.Customer == project.Customer && x.LeadId == project.LeadId);
+            Project e = db.Projects.AsNoTracking().Include(p => p.Lead).AsNoTracking().FirstOrDefault(x => x.Name == project.Name && x.Customer == project.Customer && x.StartDate == project.StartDate && x.FinishDate == project.FinishDate);
             if (e != null)
                 return e;
             return null;

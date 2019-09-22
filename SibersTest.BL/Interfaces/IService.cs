@@ -12,7 +12,7 @@ namespace SibersTest.BL.Interfaces
 
         void Delete(T item);
 
-        EmployeeDTO Get(T item);
+        T Get(T item);
 
         IEnumerable<T> GetAll();
 

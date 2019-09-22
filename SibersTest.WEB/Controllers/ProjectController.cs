@@ -17,9 +17,9 @@ namespace SibersTest.WEB.Controllers
     [ApiController]
     public class ProjectController : ControllerBase
     {
-        IService<EmployeeDTO> service;
+        IService<ProjectDTO> service;
 
-        public ProjectController(IService<EmployeeDTO> service)
+        public ProjectController(IService<ProjectDTO> service)
         {
             this.service = service;
         }
@@ -28,18 +28,27 @@ namespace SibersTest.WEB.Controllers
         public ActionResult Get()
         {
             IEnumerable<ProjectDTO> projectDTOs = service.GetAll();
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<EmployeeDTO, EmployeeViewModel>()).CreateMapper();
-            var employees = mapper.Map<IEnumerable<EmployeeDTO>, List<EmployeeViewModel>>(employeeDTOs);
-            return Ok(employees);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProjectDTO, ProjectViewModel>()).CreateMapper();
+            var projects = mapper.Map<IEnumerable<ProjectDTO>, List<ProjectViewModel>>(projectDTOs);
+            return Ok(projects);
         }
 
         [HttpPost]
-        public ActionResult Create([FromBody] EmployeeViewModel emp)
+        public ActionResult Create([FromBody] ProjectViewModel project)
         {
             try
             {
-                EmployeeDTO employeeDTO = new EmployeeDTO { Name = emp.SurName + " " + emp.Name + " " + emp.Patronymic, Email = emp.Email };
-                service.Create(employeeDTO);
+                ProjectDTO projectDTO = new ProjectDTO
+                {
+                     Name = project.Name,
+                     Customer = project.Customer,
+                     Performer = project.Performer,
+                     LeadId = project.LeadId,
+                     Priority = project.Priority,
+                     StartDate = project.StartDate,
+                     FinishDate = project.FinishDate
+                };
+                service.Create(projectDTO);
                 return RedirectToAction("Get");
             }
             catch (ValidationException ex)
@@ -50,13 +59,11 @@ namespace SibersTest.WEB.Controllers
         }
 
         [HttpPut]
-        public ActionResult Put([FromBody] EmployeeViewModel[] emp)
+        public ActionResult Put([FromBody] ProjectViewModel[] projects)
         {
             try
             {
-                EmployeeDTO s = new EmployeeDTO { Name = emp[0].SurName + " " + emp[0].Name + " " + emp[0].Patronymic, Email = emp[0].Email };
-                EmployeeDTO d = new EmployeeDTO { Name = emp[1].SurName + " " + emp[1].Name + " " + emp[1].Patronymic, Email = emp[1].Email };
-                service.Edit(s, d);
+                //service.Edit(s, d);
                 return RedirectToAction("Get");
             }
             catch (ValidationException ex)
@@ -67,12 +74,11 @@ namespace SibersTest.WEB.Controllers
         }
 
         [HttpDelete]
-        public ActionResult Delete([FromBody] EmployeeViewModel emp)
+        public ActionResult Delete([FromBody] EmployeeViewModel project)
         {
             try
             {
-                EmployeeDTO employeeDTO = new EmployeeDTO { Name = emp.SurName + " " + emp.Name + " " + emp.Patronymic, Email = emp.Email };
-                service.Delete(employeeDTO);
+                //service.Delete(employeeDTO);
                 return RedirectToAction("Get");
             }
             catch (ValidationException ex)

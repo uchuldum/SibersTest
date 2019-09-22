@@ -12,12 +12,29 @@ namespace SibersTest.BL.Services
 {
     public class ProjectService<T> : IService<ProjectDTO>
     {
-        public void Create(ProjectDTO item)
+        IUnitOfWork database { get; set; }
+
+        public ProjectService(IUnitOfWork uow)
         {
-            throw new NotImplementedException();
+            database = uow;
         }
 
-        public void Delete(ProjectDTO item)
+        private Project CreateProjectByMapper(ProjectDTO projectDTO)
+        {
+            if (projectDTO == null)
+                throw new ValidationException("ПРИЛЕТЕЛО НУЛЛ", "");
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProjectDTO, Project>()).CreateMapper();
+            return mapper.Map<ProjectDTO, Project>(projectDTO);
+        }
+
+
+        public void Create(ProjectDTO projectDTO)
+        {
+            database.Projects.Create(CreateProjectByMapper(projectDTO));
+            database.Save();
+        }
+
+        public void Delete(ProjectDTO projectDTO)
         {
             throw new NotImplementedException();
         }
@@ -32,14 +49,15 @@ namespace SibersTest.BL.Services
             throw new NotImplementedException();
         }
 
-        public EmployeeDTO Get(ProjectDTO item)
+        public ProjectDTO Get(ProjectDTO item)
         {
             throw new NotImplementedException();
         }
 
         public IEnumerable<ProjectDTO> GetAll()
         {
-            throw new NotImplementedException();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Project, ProjectDTO>()).CreateMapper();
+            return mapper.Map<IEnumerable<Project>, List<ProjectDTO>>(database.Projects.GetAll());
         }
     }
 }
