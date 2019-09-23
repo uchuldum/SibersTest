@@ -1,0 +1,11 @@
+C:\Users\Uran\Desktop\SibersTest\SibersTest.DAL\bin\Debug\netcoreapp2.2\SibersTest.DAL.deps.json
+C:\Users\Uran\Desktop\SibersTest\SibersTest.DAL\bin\Debug\netcoreapp2.2\SibersTest.DAL.dll
+C:\Users\Uran\Desktop\SibersTest\SibersTest.DAL\obj\Debug\netcoreapp2.2\SibersTest.DAL.csproj.CoreCompileInputs.cache
+C:\Users\Uran\Desktop\SibersTest\SibersTest.DAL\obj\Debug\netcoreapp2.2\SibersTest.DAL.AssemblyInfoInputs.cache
+C:\Users\Uran\Desktop\SibersTest\SibersTest.DAL\obj\Debug\netcoreapp2.2\SibersTest.DAL.AssemblyInfo.cs
+C:\Users\Uran\Desktop\SibersTest\SibersTest.DAL\bin\Debug\netcoreapp2.2\SibersTest.DAL.runtimeconfig.json
+C:\Users\Uran\Desktop\SibersTest\SibersTest.DAL\bin\Debug\netcoreapp2.2\SibersTest.DAL.runtimeconfig.dev.json
+C:\Users\Uran\Desktop\SibersTest\SibersTest.DAL\bin\Debug\netcoreapp2.2\SibersTest.DAL.pdb
+C:\Users\Uran\Desktop\SibersTest\SibersTest.DAL\obj\Debug\netcoreapp2.2\SibersTest.DAL.dll
+C:\Users\Uran\Desktop\SibersTest\SibersTest.DAL\obj\Debug\netcoreapp2.2\SibersTest.DAL.pdb
+C:\Users\Uran\Desktop\SibersTest\SibersTest.DAL\obj\Debug\netcoreapp2.2\SibersTest.DAL.csprojAssemblyReference.cache
