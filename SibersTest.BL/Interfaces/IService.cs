@@ -15,6 +15,8 @@ namespace SibersTest.BL.Interfaces
 
         Task<T> Get(int? id);
 
+        Task<IEnumerable<T>> Find(int id);
+
         Task<IEnumerable<T>> GetAll();
 
         void Dispose();

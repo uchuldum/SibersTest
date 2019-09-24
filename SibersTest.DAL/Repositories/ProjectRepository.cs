@@ -17,11 +17,20 @@ namespace SibersTest.DAL.Repositories
         {
             db = sibersTestDB;
         }
-
         public async Task<Project> IsExist(Project project)
         {
             if (project == null) return null;
-            Project e = await db.Projects.AsNoTracking().Include(p => p.Lead).FirstOrDefaultAsync(x => x.Name == project.Name && x.Customer == project.Customer && x.StartDate == project.StartDate && x.FinishDate == project.FinishDate);
+            Project e = await db.Projects.AsNoTracking().Include(p => p.Lead)
+                .FirstOrDefaultAsync
+                (x =>
+                    x.Name == project.Name &&
+                    x.Customer == project.Customer &&
+                    x.StartDate == project.StartDate &&
+                    x.FinishDate == project.FinishDate &&
+                    x.LeadId == project.LeadId &&
+                    x.Performer == project.Performer &&
+                    x.Priority == project.Priority
+                );
             if (e != null)
                 return e;
             return null;
@@ -66,7 +75,6 @@ namespace SibersTest.DAL.Repositories
                 dest.ProjectId = s.ProjectId;
                 db.Entry(dest).State = EntityState.Modified;
             }
-            
         }
     }
 }

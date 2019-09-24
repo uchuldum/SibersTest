@@ -20,18 +20,28 @@ namespace SibersTest.DAL.Repositories
 
         public async Task<ProjectsEmployees> IsExist(ProjectsEmployees projectsEmployees)
         {
-            return null;
+            if (projectsEmployees == null)
+                return null;
+            ProjectsEmployees pe = await db.ProjectsEmployees
+                                            .AsNoTracking()
+                                            .FirstOrDefaultAsync(p =>
+                                            p.EmployeeId == projectsEmployees.EmployeeId &&
+                                            p.ProjectId == projectsEmployees.ProjectId);
+            if (pe == null) return null;
+            return pe;
         }
 
         public async Task Create(ProjectsEmployees projectsEmployees)
         {
-            await db.ProjectsEmployees.AddAsync(projectsEmployees);
+           
+            if (IsExist(projectsEmployees) == null)
+                await db.ProjectsEmployees.AddAsync(projectsEmployees);
         }
 
         public async Task Delete(ProjectsEmployees projectsEmployees)
         {
-            //ProjectsEmployees projectsEmployees = db.ProjectsEmployees.Find(id);
-            if (projectsEmployees != null)
+            ProjectsEmployees pe = await IsExist(projectsEmployees);
+            if (projectsEmployees != null && projectsEmployees.Id == pe.Id)
                 db.ProjectsEmployees.Remove(projectsEmployees);
         }
 
@@ -52,7 +62,13 @@ namespace SibersTest.DAL.Repositories
 
         public async Task Update(ProjectsEmployees source, ProjectsEmployees dest)
         {
-            throw new NotImplementedException();
+            ProjectsEmployees s = await IsExist(source);
+            ProjectsEmployees d = await IsExist(dest);
+            if(s != null && d == null)
+            {
+                dest.Id = s.Id;
+                db.Entry(dest).State = EntityState.Modified;
+            }
         }
     }
 }

@@ -7,9 +7,7 @@ namespace SibersTest.BL.ModelsDTO
     public class EmployeeDTO
     {
         public int EmployeeId { get; set; }
-        // public string SurName { get; set; }
         public string Name { get; set; }
-       // public string Patronymic { get; set; }
         public string Email { get; set; }
     }
 }

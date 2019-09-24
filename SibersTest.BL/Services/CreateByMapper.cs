@@ -30,5 +30,21 @@ namespace SibersTest.BL.Services
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProjectDTO, Project>()).CreateMapper();
             return mapper.Map<ProjectDTO, Project>(projectDTO);
         }
+
+        static internal ProjectsEmployees CreateProjectEmployeeByMapper(ProjectsEmployeesDTO projectsEmployeesDTO)
+        {
+            if (projectsEmployeesDTO == null)
+                throw new ValidationException("ПРИЛЕТЕЛО НУЛЛ", "");
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProjectsEmployeesDTO, ProjectsEmployees>()).CreateMapper();
+            return mapper.Map<ProjectsEmployeesDTO, ProjectsEmployees>(projectsEmployeesDTO);
+        }
+
+        static internal IEnumerable<ProjectsEmployeesDTO> CreateProjectEmployeeDTOByMapper(IEnumerable<ProjectsEmployees> projectsEmployees)
+        {
+            if (projectsEmployees == null)
+                throw new ValidationException("ПРИЛЕТЕЛО НУЛЛ", "");
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<IEnumerable<ProjectsEmployees>, IEnumerable<ProjectsEmployeesDTO>>()).CreateMapper();
+            return mapper.Map<IEnumerable<ProjectsEmployees>, IEnumerable<ProjectsEmployeesDTO>>(projectsEmployees);
+        }
     }
 }

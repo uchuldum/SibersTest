@@ -28,7 +28,13 @@ namespace SibersTest.BL.Services
 
         public async Task Delete(ProjectDTO projectDTO)
         {
-            throw new NotImplementedException();
+            Project p = CreateByMapper.CreateProjectByMapper(projectDTO);
+            await database.Projects.Delete(p);
+            IEnumerable<ProjectsEmployees> projectsEmployees = database.ProjectsEmployees.Find(pe => pe.ProjectId == p.ProjectId);
+            foreach (var pes in projectsEmployees)
+                await database.ProjectsEmployees.Delete(pes);
+            await database.Save();
+            
         }
 
         public void Dispose()
@@ -38,7 +44,8 @@ namespace SibersTest.BL.Services
 
         public async Task Edit(ProjectDTO source, ProjectDTO dest)
         {
-            throw new NotImplementedException();
+            await database.Projects.Update(CreateByMapper.CreateProjectByMapper(source), CreateByMapper.CreateProjectByMapper(dest));
+            await database.Save();
         }
 
         public async Task<ProjectDTO> Get(int? id)
@@ -46,23 +53,29 @@ namespace SibersTest.BL.Services
             if (id == null) return null;
             Project project = await database.Projects.Get(id);
             if (project == null)
-                throw new ValidationException ( "Проект не найден", "" );
-            return new ProjectDTO{
-                                    ProjectId = project.ProjectId,
-                                    Name = project.Name,
-                                    LeadId = project.LeadId,
-                                    Customer = project.Customer,
-                                    Performer = project.Performer,
-                                    Priority = project.Priority,
-                                    StartDate = project.StartDate,
-                                    FinishDate = project.FinishDate
-                                 };
+                throw new ValidationException("Проект не найден", "");
+            return new ProjectDTO
+            {
+                ProjectId = project.ProjectId,
+                Name = project.Name,
+                LeadId = project.LeadId,
+                Customer = project.Customer,
+                Performer = project.Performer,
+                Priority = project.Priority,
+                StartDate = project.StartDate,
+                FinishDate = project.FinishDate
+            };
         }
 
         public async Task<IEnumerable<ProjectDTO>> GetAll()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Project, ProjectDTO>()).CreateMapper();
             return mapper.Map<IEnumerable<Project>, List<ProjectDTO>>(await database.Projects.GetAll());
+        }
+
+        public async Task<IEnumerable<ProjectDTO>> Find(int id)
+        {
+            return null;
         }
     }
 }

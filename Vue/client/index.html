@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>client</title>
+    <style>
+      .switch-transition{
+        transition: all .5s ease-in-out;
+      }
+      .switch-enter{
+        bottom: 100%;
+      }
+      .switch-leave{
+        bottom: -100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="app">
+      <div class="row">
+        <div class="col-sm">
+            <h1>Projects</h1>
+        </div>
+        <div class="col-sm">
+            <h1>Employees</h1>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col-sm-3">
+              <ul class="list-group">
+                  <li 
+                      v-for = "project of projects"
+                      :id = project.projectId
+                      @click = "ViewProjectInfo(GetProjectById($event))"
+                      class="list-group-item list-group-item-action pointer">
+                      {{project.name}}
+                  </li>
+              </ul>
+          </div>
+          <div class="col-sm">
+
+          </div>
+      </div>
+    </div>
+
+    <viewproject></viewproject>
+
+    
+    <script src="/dist/build.js"></script>
+  </body>
+</html>

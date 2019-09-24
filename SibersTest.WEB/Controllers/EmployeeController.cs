@@ -22,7 +22,7 @@ namespace SibersTest.WEB.Controllers
         {
             this.service = service;
         }
-       
+
         [HttpGet("{id?}")]
         public async Task<IActionResult> Get(int? id)
         {
@@ -60,7 +60,7 @@ namespace SibersTest.WEB.Controllers
             }
             return Ok();
         }
-        
+
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] EmployeeViewModel[] emps)
         {

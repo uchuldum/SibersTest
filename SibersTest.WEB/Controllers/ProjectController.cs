@@ -13,7 +13,7 @@ using SibersTest.WEB.Models;
 
 namespace SibersTest.WEB.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ProjectController : ControllerBase
     {
@@ -25,7 +25,7 @@ namespace SibersTest.WEB.Controllers
         }
 
         [HttpGet("{id?}")]
-        public async Task<IActionResult> Get(int? id)
+        public async Task<IActionResult> Projects(int? id)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProjectDTO, ProjectViewModel>()).CreateMapper();
             if (id != null)
@@ -49,16 +49,16 @@ namespace SibersTest.WEB.Controllers
             {
                 ProjectDTO projectDTO = new ProjectDTO
                 {
-                     Name = project.Name,
-                     Customer = project.Customer,
-                     Performer = project.Performer,
-                     LeadId = project.LeadId,
-                     Priority = project.Priority,
-                     StartDate = project.StartDate,
-                     FinishDate = project.FinishDate
+                    Name = project.Name,
+                    Customer = project.Customer,
+                    Performer = project.Performer,
+                    LeadId = project.LeadId,
+                    Priority = project.Priority,
+                    StartDate = project.StartDate,
+                    FinishDate = project.FinishDate
                 };
                 await service.Create(projectDTO);
-                return RedirectToAction("Get");
+                return RedirectToAction("Projects");
             }
             catch (ValidationException ex)
             {
@@ -68,12 +68,37 @@ namespace SibersTest.WEB.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] ProjectViewModel[] projects)
+        public async Task<IActionResult> Edit([FromBody] ProjectViewModel[] projects)
         {
             try
             {
-                //service.Edit(s, d);
-                return RedirectToAction("Get");
+                if (projects.Length == 2)
+                {
+                    ProjectDTO source = new ProjectDTO
+                    {
+                        Name = projects[0].Name,
+                        Customer = projects[0].Customer,
+                        LeadId = projects[0].LeadId,
+                        StartDate = projects[0].StartDate,
+                        FinishDate = projects[0].FinishDate,
+                        Performer = projects[0].Performer,
+                        Priority = projects[0].Priority,
+                        ProjectId = projects[0].ProjectId
+                    };
+                    ProjectDTO dest = new ProjectDTO
+                    {
+                        Name = projects[1].Name,
+                        Customer = projects[1].Customer,
+                        LeadId = projects[1].LeadId,
+                        StartDate = projects[1].StartDate,
+                        FinishDate = projects[1].FinishDate,
+                        Performer = projects[1].Performer,
+                        Priority = projects[1].Priority,
+                        ProjectId = projects[1].ProjectId
+                    };
+                    await service.Edit(source, dest);
+                    return RedirectToAction("Projects");
+                }
             }
             catch (ValidationException ex)
             {
@@ -88,7 +113,7 @@ namespace SibersTest.WEB.Controllers
             try
             {
                 //service.Delete(employeeDTO);
-                return RedirectToAction("Get");
+                return RedirectToAction("Projects");
             }
             catch (ValidationException ex)
             {

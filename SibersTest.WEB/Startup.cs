@@ -33,10 +33,15 @@ namespace SibersTest.WEB
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(o => o.AddPolicy("LocalPolicy", builder =>
+            {
+                builder.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+            }));
+            
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped(typeof(IRepository<Employee>), typeof(EmployeeRepository<Employee>));
             services.AddScoped(typeof(IRepository<Project>), typeof(EmployeeRepository<Project>));
@@ -50,6 +55,7 @@ namespace SibersTest.WEB
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -59,7 +65,7 @@ namespace SibersTest.WEB
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseCors("LocalPolicy");
             app.UseHttpsRedirection();
             app.UseMvc(routes =>
             {
