@@ -24,19 +24,21 @@ namespace SibersTest.WEB.Controllers
             this.service = service;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Employees(int projectId)
+        [HttpGet("{id?}")]
+        public async Task<IActionResult> Get(int? projectId)
         {
+            IEnumerable<ProjectsEmployeesDTO> projectsEmployeesDTOs;
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProjectsEmployeesDTO, ProjectsEmployeesViewModel>()).CreateMapper();
-
-            IEnumerable<ProjectsEmployeesDTO> projectsEmployeesDTOs = await service.GetAll();
-            projectsEmployeesDTOs = await service.Find(projectId);
+            if(projectId != null)
+                projectsEmployeesDTOs = await service.GetAll();
+            else
+                projectsEmployeesDTOs = await service.Find(projectId);
             var project = mapper.Map<IEnumerable<ProjectsEmployeesDTO>, List<ProjectsEmployeesViewModel>>(projectsEmployeesDTOs);
             return Ok(projectsEmployeesDTOs);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddEmployee([FromBody] ProjectsEmployeesViewModel projectsEmployeesView)
+        public async Task<IActionResult> Add([FromBody] ProjectsEmployeesViewModel projectsEmployeesView)
         {
             try
             {
@@ -57,85 +59,55 @@ namespace SibersTest.WEB.Controllers
             return Ok();
         }
 
-        /*
-            [HttpPost]
-            public async Task<IActionResult> Create([FromBody] ProjectViewModel project)
+        [HttpPut]
+        public async Task<IActionResult> Edit([FromBody] ProjectsEmployeesViewModel[] projectsEmployeesView)
+        {
+            try
             {
-                try
+                if (projectsEmployeesView.Length == 2)
                 {
-                    ProjectDTO projectDTO = new ProjectDTO
+                    ProjectsEmployeesDTO source = new ProjectsEmployeesDTO
                     {
-                        Name = project.Name,
-                        Customer = project.Customer,
-                        Performer = project.Performer,
-                        LeadId = project.LeadId,
-                        Priority = project.Priority,
-                        StartDate = project.StartDate,
-                        FinishDate = project.FinishDate
+                        Id = projectsEmployeesView[0].Id,
+                        ProjectId = projectsEmployeesView[0].ProjectId,
+                        EmployeeId = projectsEmployeesView[0].EmployeeId
                     };
-                    await service.Create(projectDTO);
-                    return RedirectToAction("Projects");
-                }
-                catch (ValidationException ex)
-                {
-                    ModelState.AddModelError(ex.Property, ex.Message);
-                }
-                return Ok();
-            }
-
-            [HttpPut]
-            public async Task<IActionResult> Edit([FromBody] ProjectViewModel[] projects)
-            {
-                try
-                {
-                    if (projects.Length == 2)
+                    ProjectsEmployeesDTO dest = new ProjectsEmployeesDTO
                     {
-                        ProjectDTO source = new ProjectDTO
-                        {
-                            Name = projects[0].Name,
-                            Customer = projects[0].Customer,
-                            LeadId = projects[0].LeadId,
-                            StartDate = projects[0].StartDate,
-                            FinishDate = projects[0].FinishDate,
-                            Performer = projects[0].Performer,
-                            Priority = projects[0].Priority,
-                            ProjectId = projects[0].ProjectId
-                        };
-                        ProjectDTO dest = new ProjectDTO
-                        {
-                            Name = projects[1].Name,
-                            Customer = projects[1].Customer,
-                            LeadId = projects[1].LeadId,
-                            StartDate = projects[1].StartDate,
-                            FinishDate = projects[1].FinishDate,
-                            Performer = projects[1].Performer,
-                            Priority = projects[1].Priority,
-                            ProjectId = projects[1].ProjectId
-                        };
-                        await service.Edit(source, dest);
-                        return RedirectToAction("Projects");
-                    }
+                        Id = projectsEmployeesView[1].Id,
+                        ProjectId = projectsEmployeesView[1].ProjectId,
+                        EmployeeId = projectsEmployeesView[1].EmployeeId
+                    };
+                    await service.Edit(source, dest);
+                    return Ok();
                 }
-                catch (ValidationException ex)
+            }
+            catch (ValidationException ex)
+            {
+                ModelState.AddModelError(ex.Property, ex.Message);
+            }
+            return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromBody] ProjectsEmployeesViewModel projectsEmployeesView)
+        {
+            try
+            {
+                ProjectsEmployeesDTO projectsEmployeesDTO = new ProjectsEmployeesDTO
                 {
-                    ModelState.AddModelError(ex.Property, ex.Message);
-                }
+                    Id = projectsEmployeesView.Id,
+                    ProjectId = projectsEmployeesView.EmployeeId,
+                    EmployeeId = projectsEmployeesView.EmployeeId
+                };
+                await service.Delete(projectsEmployeesDTO);
                 return Ok();
             }
-
-            [HttpDelete]
-            public async Task<IActionResult> Delete([FromBody] EmployeeViewModel project)
+            catch (ValidationException ex)
             {
-                try
-                {
-                    //service.Delete(employeeDTO);
-                    return RedirectToAction("Projects");
-                }
-                catch (ValidationException ex)
-                {
-                    ModelState.AddModelError(ex.Property, ex.Message);
-                }
-                return Ok();
-            }*/
+                ModelState.AddModelError(ex.Property, ex.Message);
+            }
+            return Ok();
+        }
     }
 }

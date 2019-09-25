@@ -59,7 +59,7 @@ namespace SibersTest.BL.Services
             return mapper.Map<IEnumerable<Employee>, List<EmployeeDTO>>(await database.Employees.GetAll());
         }
 
-        public async Task<IEnumerable<EmployeeDTO>> Find(int id)
+        public async Task<IEnumerable<EmployeeDTO>> Find(int? id)
         {
             return null;
         }

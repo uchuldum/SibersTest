@@ -56,7 +56,7 @@ namespace SibersTest.BL.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<ProjectsEmployeesDTO>> Find(int projectId)
+        public async Task<IEnumerable<ProjectsEmployeesDTO>> Find(int? projectId)
         {
             return CreateByMapper.CreateProjectEmployeeDTOByMapper(database.ProjectsEmployees.Find(pe => pe.ProjectId == projectId));
         }
