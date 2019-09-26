@@ -9,7 +9,7 @@ namespace SibersTest.DAL
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<ProjectsEmployees> ProjectsEmployees { get; set; }
-
+        //public virtual DbSet<ProjectTask> ProjectTasks { get; set; }
         public SibersTestDBContext()
         {
         }
@@ -19,73 +19,27 @@ namespace SibersTest.DAL
         {
         }
 
-        
-
-        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
+            modelBuilder.Entity<ProjectTask>(entity =>
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=SibersTestDB;Trusted_Connection=True;");
-            }
-        }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
-
-            modelBuilder.Entity<Employees>(entity =>
-            {
-                entity.HasKey(e => e.EmployeeId)
-                    .HasName("PK__Employee__7AD04F119A8A19CE");
-
-                entity.Property(e => e.Email).HasColumnType("text");
-
-                entity.Property(e => e.Name).HasMaxLength(100);
-
-                entity.Property(e => e.Patronymic).HasMaxLength(100);
-
-                entity.Property(e => e.SurName).HasMaxLength(100);
-            });
-
-            modelBuilder.Entity<Projects>(entity =>
-            {
-                entity.HasKey(e => e.ProjectId)
-                    .HasName("PK__Projects__761ABEF0D8FDC794");
-
-                entity.Property(e => e.Customer).HasMaxLength(100);
-
-                entity.Property(e => e.FinishDate).HasColumnType("date");
-
-                entity.Property(e => e.Performer).HasMaxLength(100);
-
-                entity.Property(e => e.StartDate).HasColumnType("date");
-
-                entity.HasOne(d => d.Lead)
-                    .WithMany(p => p.Projects)
-                    .HasForeignKey(d => d.LeadId)
+                entity.HasOne(d => d.EmployeeAuthor)
+                    .WithMany(p => p.TaskAuthor)
+                    .HasForeignKey(d => d.AuthorID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Projects__LeadId__619B8048");
-            });
-
-            modelBuilder.Entity<ProjectsEmployees>(entity =>
-            {
-                entity.ToTable("Projects_Employees");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.HasOne(d => d.Employee)
-                    .WithMany(p => p.ProjectsEmployees)
-                    .HasForeignKey(d => d.EmployeeId)
+                    .HasConstraintName("FK_Task_Author");
+                entity.HasOne(d => d.EmployeeExecutor)
+                    .WithMany(p => p.TaskExecutor)
+                    .HasForeignKey(d => d.ExecutorID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Projects___Emplo__6477ECF3");
-
+                    .HasConstraintName("FK_Task_Executor");
                 entity.HasOne(d => d.Project)
-                    .WithMany(p => p.ProjectsEmployees)
-                    .HasForeignKey(d => d.ProjectId)
+                    .WithMany(p => p.ProjectTasks)
+                    .HasForeignKey(d => d.ProjectID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Projects___Proje__656C112C");
+                    .HasConstraintName("FK_Task_Project");
             });
+            base.OnModelCreating(modelBuilder);
         }*/
     }
 }

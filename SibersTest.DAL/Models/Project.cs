@@ -21,5 +21,6 @@ namespace SibersTest.DAL.Models
 
         public virtual Employee Lead { get; set; }
         public virtual ICollection<ProjectsEmployees> ProjectsEmployees { get; set; }
+        //public virtual ICollection<ProjectTask> ProjectTasks { get; set; }
     }
 }

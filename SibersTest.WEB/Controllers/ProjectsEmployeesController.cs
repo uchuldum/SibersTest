@@ -13,7 +13,7 @@ using SibersTest.WEB.Models;
 
 namespace SibersTest.WEB.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ProjectsEmployeesController : ControllerBase
     {
@@ -24,16 +24,17 @@ namespace SibersTest.WEB.Controllers
             this.service = service;
         }
 
-        [HttpGet("{id?}")]
+        [HttpGet("{projectId?}")]
         public async Task<IActionResult> Get(int? projectId)
         {
             IEnumerable<ProjectsEmployeesDTO> projectsEmployeesDTOs;
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProjectsEmployeesDTO, ProjectsEmployeesViewModel>()).CreateMapper();
-            if(projectId != null)
+            if(projectId == null)
                 projectsEmployeesDTOs = await service.GetAll();
             else
                 projectsEmployeesDTOs = await service.Find(projectId);
-            var project = mapper.Map<IEnumerable<ProjectsEmployeesDTO>, List<ProjectsEmployeesViewModel>>(projectsEmployeesDTOs);
+            if (projectsEmployeesDTOs == null) return NotFound();
+            var project = mapper.Map<IEnumerable<ProjectsEmployeesDTO>, IEnumerable<ProjectsEmployeesViewModel>>(projectsEmployeesDTOs);
             return Ok(projectsEmployeesDTOs);
         }
 

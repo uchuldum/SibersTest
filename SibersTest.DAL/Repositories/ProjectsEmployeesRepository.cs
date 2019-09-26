@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SibersTest.DAL.Repositories
 {
-    public class ProjectsEmployeesRepository : IRepository<ProjectsEmployees>
+    public class ProjectsEmployeesRepository<T> : IRepository<ProjectsEmployees>
     {
         private SibersTestDBContext db;
 
@@ -33,8 +33,8 @@ namespace SibersTest.DAL.Repositories
 
         public async Task Create(ProjectsEmployees projectsEmployees)
         {
-           
-            if (IsExist(projectsEmployees) == null)
+            ProjectsEmployees pe = await IsExist(projectsEmployees);
+            if (pe == null)
                 await db.ProjectsEmployees.AddAsync(projectsEmployees);
         }
 
@@ -47,7 +47,9 @@ namespace SibersTest.DAL.Repositories
 
         public IEnumerable<ProjectsEmployees> Find(Func<ProjectsEmployees, bool> predicate)
         {
-            return db.ProjectsEmployees.Include(e => e.EmployeeId).Include(p => p.ProjectId).Where(predicate).ToList();
+            IEnumerable<ProjectsEmployees> pe = db.ProjectsEmployees.Where(predicate).ToList();
+            if (pe.Count() < 1) return null;
+            return db.ProjectsEmployees.Where(predicate).ToList();
         }
 
         public async Task<ProjectsEmployees> Get(int? id)

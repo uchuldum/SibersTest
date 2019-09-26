@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using SibersTest.BL.ModelsDTO;
 namespace SibersTest.BL.Interfaces
 {
     public interface IService<T> where T: class

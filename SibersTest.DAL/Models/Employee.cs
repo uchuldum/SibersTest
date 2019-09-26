@@ -19,5 +19,7 @@ namespace SibersTest.DAL.Models
 
         public virtual ICollection<Project> Projects { get; set; }
         public virtual ICollection<ProjectsEmployees> ProjectsEmployees { get; set; }
+        //public ICollection<ProjectTask> TaskAuthor { get; set; }
+        //public ICollection<ProjectTask> TaskExecutor { get; set; }
     }
 }

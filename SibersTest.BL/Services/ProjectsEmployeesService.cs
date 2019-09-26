@@ -22,6 +22,7 @@ namespace SibersTest.BL.Services
 
         public async Task Create(ProjectsEmployeesDTO projectsEmployeesDTO)
         {
+            
             ProjectsEmployees pe = CreateByMapper.CreateProjectEmployeeByMapper(projectsEmployeesDTO);
             IEnumerable<Employee> emps = database.Employees.Find(e => e.EmployeeId == pe.EmployeeId);
             IEnumerable<Project> ps = database.Projects.Find(p => p.ProjectId == pe.ProjectId);
@@ -34,6 +35,7 @@ namespace SibersTest.BL.Services
 
         public async Task Delete(ProjectsEmployeesDTO projectsEmployeesDTO)
         {
+            
             await database.ProjectsEmployees.Delete(CreateByMapper.CreateProjectEmployeeByMapper(projectsEmployeesDTO));
             await database.Save();
         }
@@ -45,6 +47,7 @@ namespace SibersTest.BL.Services
 
         public async Task Edit(ProjectsEmployeesDTO source, ProjectsEmployeesDTO dest)
         {
+            
             await database.ProjectsEmployees
                 .Update(CreateByMapper.CreateProjectEmployeeByMapper(source),
                         CreateByMapper.CreateProjectEmployeeByMapper(dest));
@@ -65,6 +68,7 @@ namespace SibersTest.BL.Services
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ProjectsEmployees, ProjectsEmployeesDTO>()).CreateMapper();
             return mapper.Map<IEnumerable<ProjectsEmployees>, List<ProjectsEmployeesDTO>>(await database.ProjectsEmployees.GetAll());
+             
         }
     }
 }

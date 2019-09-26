@@ -13,8 +13,8 @@ namespace SibersTest.DAL.Repositories
     {
         private SibersTestDBContext db;
         private EmployeeRepository<Employee> employeeRepository;
-        private ProjectRepository projectRepository;
-        private ProjectsEmployeesRepository projectsEmployeesRepository;
+        private ProjectRepository<Project> projectRepository;
+        private ProjectsEmployeesRepository<ProjectsEmployees> projectsEmployeesRepository;
 
         public EFUnitOfWork(SibersTestDBContext sibersTestDBContext)
         {
@@ -36,7 +36,7 @@ namespace SibersTest.DAL.Repositories
             get
             {
                 if (projectRepository == null)
-                    projectRepository = new ProjectRepository(db);
+                    projectRepository = new ProjectRepository<Project>(db);
                 return projectRepository;
             }
         }
@@ -46,7 +46,7 @@ namespace SibersTest.DAL.Repositories
             get
             {
                 if (projectsEmployeesRepository == null)
-                    projectsEmployeesRepository = new ProjectsEmployeesRepository(db);
+                    projectsEmployeesRepository = new ProjectsEmployeesRepository<ProjectsEmployees>(db);
                 return projectsEmployeesRepository;
             }
         }

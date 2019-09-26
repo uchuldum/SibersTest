@@ -28,8 +28,8 @@ PRIMARY KEY CLUSTERED ([ProjectId] ASC)
 );
 GO
 
-CREATE TABLE [dbo].[Projects_Employees] (
-[Id] INT NOT NULL PRIMARY KEY,
+CREATE TABLE [dbo].[ProjectsEmployees] (
+[Id] INT NOT NULL IDENTITY PRIMARY KEY,
 [EmployeeId] INT NOT NULL,
 [ProjectId] INT NOT NULL,
 FOREIGN KEY ([EmployeeId]) REFERENCES [dbo].[Employees] ([EmployeeId]),

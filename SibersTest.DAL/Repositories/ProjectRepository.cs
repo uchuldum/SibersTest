@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SibersTest.DAL.Repositories
 {
-    public class ProjectRepository : IRepository<Project>
+    public class ProjectRepository<T> : IRepository<Project>
     {
         private SibersTestDBContext db;
 

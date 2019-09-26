@@ -44,11 +44,13 @@ namespace SibersTest.WEB
 
             services.AddAutoMapper(typeof(Startup));
             services.AddScoped(typeof(IRepository<Employee>), typeof(EmployeeRepository<Employee>));
-            services.AddScoped(typeof(IRepository<Project>), typeof(EmployeeRepository<Project>));
+            services.AddScoped(typeof(IRepository<Project>), typeof(ProjectRepository<Project>));
+            services.AddScoped(typeof(IRepository<ProjectsEmployees>), typeof(EmployeeRepository<ProjectsEmployees>));
             services.AddScoped<IUnitOfWork, EFUnitOfWork>();
          
             services.AddTransient(typeof(IService<EmployeeDTO>), typeof(EmployeeService<EmployeeDTO>));
             services.AddTransient(typeof(IService<ProjectDTO>), typeof(ProjectService<ProjectDTO>));
+            services.AddTransient(typeof(IService<ProjectsEmployeesDTO>), typeof(ProjectsEmployeesService<ProjectsEmployeesDTO>));
             services.AddDbContext<SibersTest.DAL.SibersTestDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
